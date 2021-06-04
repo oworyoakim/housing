@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Traits\BelongsToBusiness;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -8,39 +9,11 @@ use \DateTimeInterface;
 
 class Booking extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, BelongsToBusiness, HasFactory;
 
     public $table = 'bookings';
 
-    protected $appends = [
-        'status_label',
-    ];
-
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
-
-    protected $orderable = [
-        'id',
-        'amount',
-        'tax',
-        'discount',
-        'email_address',
-        'phone',
-        'status',
-    ];
-
-    protected $filterable = [
-        'id',
-        'amount',
-        'tax',
-        'discount',
-        'email_address',
-        'phone',
-        'status',
-    ];
+    protected $appends = ['status_label',];
 
     protected $guarded = [];
 

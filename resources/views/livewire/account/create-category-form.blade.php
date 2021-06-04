@@ -1,7 +1,7 @@
 <div class="mt-2">
     @section('title', 'Create Room Category')
     <div class="card">
-        <div class="card-header bg-secondary">
+        <div class="card-header bg-gradient-secondary">
             <h3 class="card-title">Add a new category</h3>
             <div class="card-tools">
                 <a href="{{route('room-categories')}}" class="btn btn-dark btn-sm"><i class="fa fa-backward"></i> Back To List</a>

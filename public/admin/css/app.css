@@ -541,7 +541,6 @@
 
 .property-images .carousel-indicators {
   position: static;
-  margin-top: 20px;
 }
 
 .property-images .carousel-indicators > li {
@@ -573,4 +572,26 @@
 
 .property-images .carousel-inner .carousel-item:hover img {
   transform: scale(1.2);
+}
+
+.modal-fullscreen {
+  width: 100vw;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+}
+
+.modal-fullscreen .modal-content {
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  overflow-y: auto;
+}
+
+.modal-fullscreen .modal-header {
+  border-radius: 0;
+}
+
+.modal-fullscreen .modal-footer {
+  border-radius: 0;
 }

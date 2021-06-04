@@ -1,38 +1,20 @@
 <?php
 namespace App\Models;
 
+use App\Traits\BelongsToBusiness;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use \DateTimeInterface;
 
 class BedType extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, BelongsToBusiness, HasFactory;
 
     public $table = 'bed_types';
 
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
-
-    protected $orderable = [
-        'id',
-        'name',
-        'capacity',
-        'user.name',
-    ];
-
-    protected $filterable = [
-        'id',
-        'name',
-        'capacity',
-        'user.name',
-    ];
-
     protected $guarded = [];
+
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     const COMMON_BED_TYPES = [
         ['name' => 'Twin Bed', 'capacity' => 1,],
@@ -46,18 +28,16 @@ class BedType extends Model
         ['name' => 'Futon Mattress', 'capacity' => 1,],
     ];
 
-    protected function serializeDate(DateTimeInterface $date)
+    public function rooms()
     {
-        return $date->format('Y-m-d H:i:s');
+        return $this->belongsToMany(BedType::class,'room_beds')
+                    ->using(RoomBed::class)
+                    ->withPivot(['user_id', 'number_of_beds'])
+                    ->withTimestamps();
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function business()
-    {
-        return $this->belongsTo(Business::class, 'business_id');
     }
 }

@@ -24,11 +24,7 @@ class CreatePropertiesTable extends Migration
             $table->string('city');
             $table->string('country');
             $table->string('zip')->nullable();
-            $table->enum('status',[
-                Property::STATUS_PENDING,
-                Property::STATUS_VERIFIED,
-                Property::STATUS_BLOCKED
-            ])->default('pending');
+            $table->boolean('published')->default(false);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id', 'user_fk_3478971')

@@ -9,7 +9,7 @@
     <!-- Font Awesome Css -->
     <link rel="stylesheet" href="{{ asset('/assets/css/all.min.css') }}">
     <!-- Bootstrap version 4.4.1 -->
-    <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap-4.4.1.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap-4.4.1.min.css') }}"/>
     <!-- animate css -->
     <link rel="stylesheet" href="{{ asset('/assets/css/animate.css') }}">
     <!-- magnific popup versison 1.1.0 -->
@@ -19,17 +19,17 @@
     <!-- meanmenu version 2.0.7 -->
     <link rel="stylesheet" href="{{ asset('/assets/css/meanmenu-2.0.7.min.css') }}">
     <!-- Slick Version 1.9.0 -->
-    <link rel="stylesheet" href="{{ asset('/assets/css/slick-1.9.0.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/slick-1.9.0.css') }}"/>
     <!-- datetimepicker -->
-    <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap-datepicker.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap-datepicker.css') }}"/>
     <!-- jQuery Ui for price range slide -->
     <link rel="stylesheet" href="{{ asset('/assets/css/jquery-ui.min.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('/assets/css/toastr.min.css') }}">
     <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}"/>
     <!-- Responsive Css -->
-    <link rel="stylesheet" href="{{ asset('/assets/css/responsive.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/responsive.css') }}"/>
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     @livewireStyles
 </head>
@@ -43,7 +43,20 @@
 </div>
 <!-- Main Wrap start -->
 <main>
-    @yield('content')
+    <section class="auth-form gird-view section-bg section-padding">
+        <div class="container mt-30">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    @include('auth.header')
+                    <div class="sidebar-wrap">
+                        <div class="widget fillter-widget">
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 <!-- modernizr version 3.6.0 -->
 <script src="{{asset('/assets/js/modernizr-3.6.0.min.js')}}"></script>
@@ -86,16 +99,16 @@
 @livewireScripts
 <script>
     @if(session()->has('error'))
-        toastr.error("{{session()->get('error')}}");
+    toastr.error("{{session()->get('error')}}");
     @endif
     @if(session()->has('success'))
-        toastr.success("{{session()->get('success')}}");
+    toastr.success("{{session()->get('success')}}");
     @endif
     @if(session()->has('warning'))
-        toastr.warning("{{session()->get('warning')}}");
+    toastr.warning("{{session()->get('warning')}}");
     @endif
     @if(session()->has('info'))
-        toastr.info("{{session()->get('info')}}");
+    toastr.info("{{session()->get('info')}}");
     @endif
 </script>
 </body>

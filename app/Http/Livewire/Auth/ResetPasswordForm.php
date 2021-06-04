@@ -20,6 +20,8 @@ class ResetPasswordForm extends Component
 
     public function render()
     {
-        return view('livewire.auth.reset-password-form');
+        return view('livewire.auth.reset-password-form')
+            ->extends('auth.layout')
+            ->section('content');
     }
 }

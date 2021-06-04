@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card mt-2">
-                <div class="card-header bg-secondary">
+                <div class="card-header bg-gradient-secondary">
                     <h3 class="card-title">Add a new bed type</h3>
                     <div class="card-tools">
                         <a href="{{route('bed-types')}}" class="btn btn-dark btn-sm"><i class="fa fa-backward"></i> Back

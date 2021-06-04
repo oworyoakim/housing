@@ -51,10 +51,6 @@ class LoginForm extends Component
                //return redirect()->route('verification.resend');
             }
             session()->flash('success', "You are Logged in!");
-            if($this->user->account_type == User::ACCOUNT_TYPE_MANAGER)
-            {
-                return redirect()->intended(route('manager-dashboard'));
-            }
             return redirect()->intended(route('home'));
         } else
         {
@@ -64,6 +60,8 @@ class LoginForm extends Component
 
     public function render()
     {
-        return view('livewire.auth.login-form');
+        return view('livewire.auth.login-form')
+            ->extends('auth.layout')
+            ->section('content');
     }
 }

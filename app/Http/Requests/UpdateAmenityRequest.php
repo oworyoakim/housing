@@ -10,25 +10,15 @@ class UpdateAmenityRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('amenity_edit');
+        //return Gate::allows('amenity_edit');
+        return true;
     }
 
     public function rules()
     {
         return [
-            'name'        => [
-                'string',
-                'required',
-            ],
-            'description' => [
-                'string',
-                'nullable',
-            ],
-            'user_id'     => [
-                'integer',
-                'exists:users,id',
-                'required',
-            ],
+            'name'        => ['string', 'required',],
+            'description' => ['string', 'nullable',],
         ];
     }
 }

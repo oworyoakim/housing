@@ -15,7 +15,13 @@ class AddPricingColumnsToRoomsTable extends Migration
     {
         Schema::table('rooms', function (Blueprint $table) {
             $table->after('property_id',function () use ($table){
-                $table->float('price', 15)->nullable();
+                $table->float('rate', 15)->nullable();
+                $table->enum('ratePeriod', [
+                    \App\Models\Room::RATE_PERIOD_NIGHT,
+                    \App\Models\Room::RATE_PERIOD_DAY,
+                    \App\Models\Room::RATE_PERIOD_WEEK,
+                    \App\Models\Room::RATE_PERIOD_MONTH,
+                ])->default('night');
             });
         });
     }
@@ -28,7 +34,7 @@ class AddPricingColumnsToRoomsTable extends Migration
     public function down()
     {
         Schema::table('rooms', function (Blueprint $table) {
-            $table->dropColumn(['listing_price_modifier']);
+            $table->dropColumn(['rate','rate_period']);
         });
     }
 }

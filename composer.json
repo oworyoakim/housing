@@ -1,5 +1,5 @@
 {
-  "name": "housing",
+  "name": "oworyoakim/housing",
   "description": "Hotels booking software",
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -20,11 +20,11 @@
     "fideloper/proxy": "^4.2",
     "fruitcake/laravel-cors": "^2.0",
     "guzzlehttp/guzzle": "^7.0.1",
+    "intervention/image": "^2.5",
     "laravel/framework": "^8.0",
     "laravel/sanctum": "^2.8",
     "laravel/tinker": "^2.0",
-    "livewire/livewire": "^2.4",
-    "spatie/laravel-medialibrary": "^8.7"
+    "livewire/livewire": "^2.4"
   },
   "require-dev": {
     "facade/ignition": "^2.3.6",

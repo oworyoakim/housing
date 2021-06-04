@@ -14,7 +14,7 @@ class AddPropertyIdToRoomsTable extends Migration
     public function up()
     {
         Schema::table('rooms', function (Blueprint $table) {
-            $table->unsignedBigInteger('property_id');
+            $table->unsignedBigInteger('property_id')->after('user_id');
             $table->foreign('property_id', 'property_fk_3476371')->references('id')->on('properties');
         });
     }

@@ -26,7 +26,9 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                @yield('content')
+                <div class="mt-0">
+                    @yield('content')
+                </div>
             </div>
         </section>
         <!-- /.content -->
@@ -45,9 +47,8 @@
 <script src="{{mix('/admin/js/app.js')}}"></script>
 @livewireScripts
 <script>
-    $(function () {
-        //Initialize Select2 Elements
-        //$('.select2').select2();
+    $(document).ready(function (){
+
     });
 </script>
 <script>

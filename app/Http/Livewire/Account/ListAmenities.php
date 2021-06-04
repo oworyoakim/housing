@@ -17,7 +17,7 @@ class ListAmenities extends Component
     public function render()
     {
         $user = auth()->user();
-        $amenities = Amenity::where('business_id', $user->business->id)->paginate($this->perPage);
+        $amenities = Amenity::forBusiness($user->business->id)->paginate($this->perPage);
         return view('livewire.account.list-amenities', compact('amenities'))
             ->extends('manager.layout')
             ->section('content');

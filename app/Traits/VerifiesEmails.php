@@ -29,6 +29,7 @@ trait VerifiesEmails
         }
 
         if ($user->hasVerifiedEmail()) {
+            session()->flash("success", "Your email is already verified!");
             return redirect()->route('home');
         }
 

@@ -45,6 +45,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('manage-rooms')}}" class="nav-link @if(Request::is('manage/rooms*')) active @endif">
+                        <i class="nav-icon fas fa-bed"></i>
+                        <p>
+                            Rooms
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('amenities')}}" class="nav-link @if(Request::is('manage/amenities*')) active @endif">
                         <i class="nav-icon fas fa-hot-tub"></i>
                         <p>

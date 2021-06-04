@@ -23,11 +23,11 @@
                                 <li class="have-submenu ml-lg-5">
                                     <a href="javascript:void(0);">{{auth()->user()->name}}</a>
                                     <ul class="submenu user-menu">
-                                        <li><a href="{{route('profile')}}">Profile</a></li>
                                         @if(auth()->user()->account_type == 'manager')
-                                            <li><a href="{{route('manager-dashboard')}}">Dashboard</a></li>
-                                            <li><a href="{{route('properties')}}">Manage Properties</a></li>
-                                            <li><a href="{{route('reservations')}}">Manage Reservations</a></li>
+                                            <li><a href="/manager/profile">Profile</a></li>
+                                            <li><a href="/manager/dashboard">Dashboard</a></li>
+                                            <li><a href="/manager/properties">Manage Properties</a></li>
+                                            <li><a href="/manager/reservations">Manage Reservations</a></li>
                                         @else
                                             <li><a href="{{route('bookings')}}">Your Orders</a></li>
                                         @endif

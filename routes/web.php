@@ -1,59 +1,100 @@
 <?php
 
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\LoginController as AdminLoginController;
+use App\Http\Controllers\AmenityController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BedController;
+use App\Http\Controllers\BedTypeController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\RoomOrServiceCategoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/login', [\App\Http\Controllers\HomeController::class, 'login'])->name('login');
-Route::get('/register', [\App\Http\Controllers\HomeController::class, 'register'])->name('register');
-Route::get('/reset-password', [\App\Http\Controllers\HomeController::class, 'resetPassword'])->name('reset-password');
-Route::get('/rooms', [\App\Http\Controllers\HomeController::class, 'rooms'])->name('rooms');
-Route::get('/contact-us', [\App\Http\Controllers\HomeController::class, 'contactUs'])->name('contact-us');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/rooms', [HomeController::class, 'rooms'])->name('rooms');
+Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('contact-us');
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [\App\Http\Livewire\Auth\LoginForm::class, '__invoke'])->name('login');
+    Route::get('/register', [\App\Http\Livewire\Auth\SignupForm::class, '__invoke'])->name('register');
+    Route::get('/reset-password', [\App\Http\Livewire\Auth\ResetPasswordForm::class, '__invoke'])->name('reset-password');
+});
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/verify-email-address', [\App\Http\Controllers\AccountController::class, 'verifyEmailAddress'])->name('verification.verify');
-    Route::get('/email-verification-notice', [\App\Http\Controllers\AccountController::class, 'emailVerification'])->name('verification.notice');
-    //Route::post('/resend-verification-email', [\App\Http\Controllers\AccountController::class, 'resendVerificationEmail'])->name('verification.resend');
-    Route::get('/profile', [\App\Http\Controllers\AccountController::class, 'profile'])->name('profile');
-    Route::get('/bookings', [\App\Http\Controllers\AccountController::class, 'bookings'])->name('bookings');
+    Route::get('/user-data', [AccountController::class, 'getUserData'])->name('user-data');
+    Route::get('/form-options', [AccountController::class, 'getFormOptions'])->name('form-options');
+    Route::get('/verify-email-address', [AccountController::class, 'verifyEmailAddress'])->name('verification.verify');
+    Route::get('/email-verification-notice', [\App\Http\Livewire\Account\EmailVerification::class, '__invoke'])->name('verification.notice');
+    Route::get('/profile', [AccountController::class, 'profile'])->name('profile');
+    Route::get('/bookings', [AccountController::class, 'bookings'])->name('bookings');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::prefix('manage')->middleware('verified:verification.notice')->group(function (){
-        Route::redirect('', '/manage/dashboard');
-        Route::get('dashboard', [\App\Http\Livewire\Account\ManagerDashboard::class, '__invoke'])->name('manager-dashboard');
-        Route::get('profile', [\App\Http\Livewire\Account\ManagerProfile::class, '__invoke'])->name('manager-profile');
+    Route::prefix('manage')->middleware('verified:verification.notice')->group(function () {
 
-        Route::prefix('properties')->group(function (){
-            Route::get('', [\App\Http\Livewire\Account\ListProperties::class,'__invoke'])->name('properties');
-            Route::get('create', [\App\Http\Livewire\Account\CreatePropertyForm::class,'__invoke'])->name('create-property');
-            Route::get('{id}/edit', [\App\Http\Livewire\Account\EditPropertyForm::class,'__invoke'])->name('edit-property');
-            Route::get('{id}/show', [\App\Http\Livewire\Account\ShowProperty::class,'__invoke'])->name('view-property');
-            Route::get('{id}/rooms-or-services/create', [\App\Http\Livewire\Account\CreateRoomServiceForm::class,'__invoke'])->name('create-room-or-service');
+        Route::prefix('properties')->group(function () {
+            Route::get('', [PropertyController::class, 'index']);
+            Route::post('', [PropertyController::class, 'store']);
+            Route::get('{id}', [PropertyController::class, 'show']);
+            Route::get('{id}/for-update', [PropertyController::class, 'getForUpdate']);
+            Route::get('{id}/rooms-or-services', [PropertyController::class, 'getPropertyRoomsOrServices']);
+            Route::post('{id}', [PropertyController::class, 'update']);
+            Route::post('{id}/additional-photos', [PropertyController::class, 'uploadAdditionalPhotos']);
+            Route::patch('publish/{id}', [PropertyController::class, 'publish']);
+            Route::patch('unpublish/{id}', [PropertyController::class, 'unpublish']);
+            Route::patch('remove-amenity', [PropertyController::class, 'removeAmenity']);
         });
 
-        Route::prefix('amenities')->group(function (){
-            Route::get('', [\App\Http\Livewire\Account\ListAmenities::class,'__invoke'])->name('amenities');
-            Route::get('create', [\App\Http\Livewire\Account\CreateAmenityForm::class,'__invoke'])->name('create-amenity');
-            Route::get('{id}/edit', [\App\Http\Livewire\Account\EditAmenityForm::class,'__invoke'])->name('edit-amenity');
+        Route::prefix('amenities')->group(function () {
+            Route::get('', [AmenityController::class, 'index']);
+            Route::post('', [AmenityController::class, 'store']);
+            Route::get('show', [AmenityController::class, 'show']);
+            Route::get('options', [AmenityController::class, 'options']);
+            Route::put('{amenity}', [AmenityController::class, 'update']);
         });
 
-        Route::prefix('bed-types')->group(function (){
-            Route::get('', [\App\Http\Livewire\Account\ListBedTypes::class,'__invoke'])->name('bed-types');
-            Route::get('create', [\App\Http\Livewire\Account\CreateBedTypeForm::class,'__invoke'])->name('create-bed-type');
-            Route::get('{id}/edit', [\App\Http\Livewire\Account\EditBedTypeForm::class,'__invoke'])->name('edit-bed-type');
+        Route::prefix('rooms')->group(function (){
+            Route::post('', [RoomController::class,'store']);
+            Route::get('{id}', [RoomController::class, 'show']);
+            Route::post('{id}', [RoomController::class, 'update']);
+            Route::post('{id}/additional-photos', [RoomController::class, 'uploadAdditionalPhotos']);
+            Route::get('{id}/for-update', [RoomController::class, 'getForUpdate']);
+            Route::patch('publish/{id}', [RoomController::class, 'publish']);
+            Route::patch('unpublish/{id}', [RoomController::class, 'unpublish']);
+            Route::patch('remove-amenity', [RoomController::class, 'removeAmenity']);
         });
 
-        Route::prefix('room-categories')->group(function (){
-            Route::get('', [\App\Http\Livewire\Account\ListRoomCategories::class,'__invoke'])->name('room-categories');
-            Route::get('create', [\App\Http\Livewire\Account\CreateCategoryForm::class,'__invoke'])->name('create-room-category');
-            Route::get('{id}/edit', [\App\Http\Livewire\Account\EditCategoryForm::class,'__invoke'])->name('edit-room-category');
+        Route::prefix('bed-types')->group(function () {
+            Route::get('', [BedTypeController::class, 'index']);
+            Route::post('', [BedTypeController::class, 'store']);
+            Route::get('show', [BedTypeController::class, 'show']);
+            Route::get('options', [BedTypeController::class, 'options']);
+            Route::put('{bedType}', [BedTypeController::class, 'update']);
         });
 
-        Route::get('reservations', [\App\Http\Livewire\Account\ShowReservations::class, '__invoke'])->name('reservations');
+        Route::prefix('beds')->group(function () {
+            Route::post('', [BedController::class, 'store']);
+            Route::patch('', [BedController::class, 'remove']);
+        });
+
+        Route::prefix('room-or-service-categories')->group(function () {
+            Route::get('', [RoomOrServiceCategoryController::class, 'index']);
+            Route::post('', [RoomOrServiceCategoryController::class, 'store']);
+            Route::get('show', [RoomOrServiceCategoryController::class, 'show']);
+            Route::get('options', [RoomOrServiceCategoryController::class, 'options']);
+            Route::put('{category}', [RoomOrServiceCategoryController::class, 'update']);
+        });
+    });
+
+    Route::prefix('manager')->middleware('verified:verification.notice')->group(function () {
+        Route::get('{any?}', [AccountController::class, 'manager'])->where('any', '.+')->name('manager-dashboard');
     });
 });
 
 Route::prefix('admin')->namespace('Admin')->as('admin.')->group(function () {
-    Route::get('', [\App\Http\Controllers\Admin\LoginController::class, 'index']);
-    Route::get('login', [\App\Http\Controllers\Admin\LoginController::class, 'index'])->name('login');
+    Route::get('', [AdminLoginController::class, 'index']);
+    Route::get('login', [AdminLoginController::class, 'index'])->name('login');
 
     Route::middleware(['auth'])->group(function () {
         Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');

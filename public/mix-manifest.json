@@ -1,6 +1,15 @@
 {
     "/admin/js/app.js": "/admin/js/app.js",
+    "/manager/js/theme.js": "/manager/js/theme.js",
+    "/manager/js/app.js": "/manager/js/app.js",
     "/js/app.js": "/js/app.js",
+    "/js/manifest.js": "/js/manifest.js",
+    "/admin/js/manager-settings.js": "/admin/js/manager-settings.js",
+    "/admin/js/dashboard.js": "/admin/js/dashboard.js",
+    "/admin/js/properties.js": "/admin/js/properties.js",
+    "/admin/js/profile.js": "/admin/js/profile.js",
+    "/js/vendor.js": "/js/vendor.js",
+    "/manager/css/app.css": "/manager/css/app.css",
     "/admin/css/app.css": "/admin/css/app.css",
     "/css/app.css": "/css/app.css"
 }

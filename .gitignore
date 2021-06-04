@@ -26,3 +26,7 @@ Homestead.json
 
 .idea/
 .vs/
+
+.DS_Store
+.idea
+.vscode

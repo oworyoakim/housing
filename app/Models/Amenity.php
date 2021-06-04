@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToBusiness;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,31 +10,13 @@ use \DateTimeInterface;
 
 class Amenity extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, BelongsToBusiness, HasFactory;
 
     public $table = 'amenities';
 
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
-
-    protected $orderable = [
-        'id',
-        'name',
-        'description',
-        'user.name',
-    ];
-
-    protected $filterable = [
-        'id',
-        'name',
-        'description',
-        'user.name',
-    ];
-
     protected $guarded = [];
+
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     const COMMON_AMENITIES = [
         'Hot tub',
@@ -60,18 +43,20 @@ class Amenity extends Model
         'Heater',
     ];
 
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function business()
-    {
-        return $this->belongsTo(Business::class, 'business_id');
+    public function rooms(){
+        return $this->belongsToMany(Room::class, 'room_amenities')
+                    ->withPivot(['user_id'])
+                    ->withTimestamps();
+    }
+
+    public function properties(){
+        return $this->belongsToMany(Property::class, 'property_amenities')
+                    ->withPivot(['user_id'])
+                    ->withTimestamps();
     }
 }

@@ -4,9 +4,14 @@
 namespace App\Traits;
 
 
+use App\Models\User;
+
 trait InteractsWithUser
 {
-    private function getLoggedInUser(){
-        return auth()->user();
+    /**
+     * @return User|null
+     */
+    protected function getLoggedInUser(){
+        return User::find(auth()->user()->id ?? null);
     }
 }

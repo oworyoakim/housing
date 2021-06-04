@@ -17,8 +17,8 @@ class CreateBookedRoomsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('booking_id');
             $table->unsignedBigInteger('room_id');
-            $table->timestamp('check_in');
-            $table->timestamp('check_out');
+            $table->timestamp('check_in')->nullable();
+            $table->timestamp('check_out')->nullable();
             $table->decimal('price', 15)->unsigned();
             $table->decimal('discount', 15,2)->unsigned()->nullable();
             $table->decimal('tax', 15, 2)->unsigned()->nullable();

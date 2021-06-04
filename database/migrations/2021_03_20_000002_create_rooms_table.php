@@ -11,8 +11,10 @@ class CreateRoomsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->longText('description')->nullable();
-            $table->boolean('published')->default(0)->nullable();
+            $table->boolean('published')->default(false);
             $table->unsignedBigInteger('user_id');
+            $table->unsignedSmallInteger('frequency')->default(1);
+            $table->unsignedSmallInteger('bathrooms')->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id', 'user_fk_3476371')->references('id')->on('users');

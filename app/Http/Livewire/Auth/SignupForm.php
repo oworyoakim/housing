@@ -114,10 +114,6 @@ class SignupForm extends Component
                 'password' => $this->password,
             ]);
             session()->flash('success', "Your account has created successfully!");
-            if($user->account_type == User::ACCOUNT_TYPE_MANAGER)
-            {
-                return redirect()->route('manager-dashboard');
-            }
             return redirect()->route('home');
         }catch (Exception $ex){
             DB::rollBack();
@@ -134,6 +130,8 @@ class SignupForm extends Component
 
     public function render()
     {
-        return view('livewire.auth.signup-form');
+        return view('livewire.auth.signup-form')
+            ->extends('auth.layout')
+            ->section('content');
     }
 }

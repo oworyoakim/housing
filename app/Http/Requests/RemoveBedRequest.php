@@ -1,35 +1,30 @@
 <?php
 namespace App\Http\Requests;
 
-use App\Models\Bed;
+use App\Models\RoomBed;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 
-class UpdateBedRequest extends FormRequest
+class RemoveBedRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('bed_edit');
+        // return Gate::allows('bed_remove');
+        return true;
     }
 
     public function rules()
     {
         return [
-            'bed_type_id'    => [
+            'bedTypeId'    => [
                 'integer',
                 'exists:bed_types,id',
                 'required',
             ],
-            'room_id'        => [
+            'roomId'        => [
                 'integer',
                 'exists:rooms,id',
-                'required',
-            ],
-            'number_of_beds' => [
-                'integer',
-                'min:0',
-                'max:2147483647',
                 'required',
             ],
         ];
